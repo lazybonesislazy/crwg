@@ -52,7 +52,15 @@ class ReverseInverseRussianLanguagePack(TranslitLanguagePack):
 
 registry.register(ReverseInverseRussianLanguagePack)
 
+class ReverseInverseRussianToEnLanguagePack(TranslitLanguagePack):
+    language_code = "en_inv_ru"
+    language_name = "en_inv_ru"
+    mapping = (
+        u"qwertyuiop[]asdfghjkl;'\zxcvbnm,.",
+        u"йцукенгшщзхъфывапролджэёячсмитьбю",
+    )
 
+registry.register(ReverseInverseRussianToEnLanguagePack
 
 def _reporthook(numblocks, blocksize, filesize, url=None):
     base = os.path.basename(url)
@@ -154,7 +162,12 @@ def generatedictionary(source, destination,  gendic):
         with codecs.open(destination, 'a+', 'utf-8') as myfile:
             for line in pbar(lines):
                 myfile.write(translit(unicode(line), gendic) + '\n')
-
+    
+    if gendic == 'en_inv_ru':
+        with codecs.open(destination, 'a+', 'utf-8') as myfile:
+            for line in pbar(lines):
+                myfile.write(translit(unicode(line), gendic) + '\n')
+                  
     myfile.close()
     f.close()
     return
@@ -189,7 +202,7 @@ def main():
     parser = argparse.ArgumentParser(description=__banner__,
                                      epilog='Usage: ./python crwg.py -g ru_inv_en -s sourcedict -d destinationdict \n   /or/   python crwg.py --downloaddictionaries ruscorpora --autoclean \n   /or/   ')
     parser.add_argument(
-        '--gendic', '-g', choices=['ru_inv_en', 'translit', 'tran5l1t'], help='Generate dictionary from file ')
+        '--gendic', '-g', choices=['ru_inv_en', 'en_inv_ru' , 'translit', 'tran5l1t'], help='Generate dictionary from file ')
     parser.add_argument('--downloaddictionaries', choices=[
                         'ruscorpora', 'opencorpora'], help='Download ruscorpora or opencorpora')
     parser.add_argument('--autoclean', action='store_true',
